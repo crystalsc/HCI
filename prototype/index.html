@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Study Tool Prototype</title>
+	<script src="webgazer.js" type="text/javascript"></script>
+	<style>
+		#focus{
+			position: absolute;
+			top: 50vh;
+			left: 50vw;
+			width: 100px;
+			height: 100px;
+			background-color: rgb(255, 120, 0);
+			transition: top .6s, left .6s;
+		}
+		#top-right{
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+		#bottom-left{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+	</style>
+</head>
+<body>
+	<button id="top-right">
+		Click
+	</button>
+	<button id="bottom-left">
+		Click
+	</button>
+	<div id="focus">
+		
+	</div>
+</body>
+<script>
+	webgazer.begin();
+	webgazer.setGazeListener((data, time) => {
+		if(data === null){
+			return;
+		}
+		//window.alert(data.x + ", " + data.y);
+		document.getElementById("focus").style.top = (data.y + "px");
+		document.getElementById("focus").style.left = (data.x + "px");
+	});
+</script>
+</html>
