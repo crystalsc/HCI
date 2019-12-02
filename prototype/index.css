@@ -88,6 +88,8 @@
 
 #controls{
 	display: none;
+	grid-template-columns: 1fr 1fr;
+	gap: 2rem 2rem;
 }
 #garden{
 	display: none;

@@ -50,7 +50,13 @@
 			</h1>
 		</div>
 		<div id='controls'>
-			Controls for the timer stuff and pause button go here
+			<h2>
+				Minutes to study for:
+			</h2>
+			<button>
+				Pause
+			</button>
+			<input id='time' type='number' name='time' value='15'>
 		</div>
 		<div id="focus">
 			
@@ -61,6 +67,8 @@
 	var clickCount = 0;
 	var calibrated = false;
 	var paused = false;
+	var studyTime = 0; //in tenths of a second
+	var studyTimeTarget = 0;	//in tenths of a second
 
 	function calib(n){
 		var newVal = document.getElementById("cal-" + n).innerHTML - 1;
@@ -75,7 +83,7 @@
 		if(clickCount === 35){
 			calibrated = true;
 			document.getElementById("garden").style.display = "flex";
-			document.getElementById("controls").style.display = "block";
+			document.getElementById("controls").style.display = "grid";
 			document.getElementById("instructions").style.display = "none";
 		}
 
@@ -92,6 +100,8 @@
 	var distractedTime = 0;
 
 	const intervalWebgazer = setInterval(function(){
+		studyTimeTarget = document.getElementById("time").value;
+		console.log(studyTimeTarget);
 		var prediction = webgazer.getCurrentPrediction();
 		if(!paused && prediction && calibrated){
 			if(prediction.x < 0 || prediction.x > width){
