@@ -17,25 +17,25 @@
 				How to calibrate:
 			</h4>
 			<p>
-				Click the buttons in the four corners until they disappear.
+				Look at each circle and click it until it disappears.
 			</p>
 		</div>
 		<p id='xval'>
 		</p>
-		<button class='button-calibrate' id='cal-1' onclick="calib(1)">
+		<button class='button-calibrate button-calibrate__t5' id='cal-1' onclick="calib(1)">
 			5
 		</button>
-		<button class='button-calibrate' id='cal-2' onclick="calib(2)">
+		<button class='button-calibrate button-calibrate__t5' id='cal-2' onclick="calib(2)">
 			5
 		</button>
-		<button class='button-calibrate' id='cal-3' onclick="calib(3)">
+		<button class='button-calibrate button-calibrate__t5' id='cal-3' onclick="calib(3)">
 			5
 		</button>
-		<button class='button-calibrate' id='cal-4' onclick="calib(4)">
+		<button class='button-calibrate button-calibrate__t5' id='cal-4' onclick="calib(4)">
 			5
 		</button>
 		<div id='garden' class='garden'>
-			YERRRR
+			(the garden)
 		</div>
 		<div id="focus">
 			
@@ -48,6 +48,9 @@
 
 	function calib(n){
 		var newVal = document.getElementById("cal-" + n).innerHTML - 1;
+		const oldClass = "button-calibrate__t" + (newVal + 1);// + (document.getElementById("cal-" + n).innerHTML + 0);
+		document.getElementById("cal-" + n).classList.remove(oldClass);
+		document.getElementById("cal-" + n).classList.add("button-calibrate__t" + newVal);
 		document.getElementById("cal-" + n).innerHTML = newVal;
 		if(newVal === 0){
 			document.getElementById("cal-" + n).style.display = "none";
@@ -74,26 +77,31 @@
 	const intervalWebgazer = setInterval(function(){
 		var prediction = webgazer.getCurrentPrediction();
 		if(prediction && calibrated){
-			if(prediction.x > width / 2){
-				//looking at right side of screen
+			if(prediction.x < 0 || prediction.x > width){
+				//out of bounds, aka not looking at screen
+				distractedTime = distractedTime + 1;
 			}
-			else{
-				//left side of screen
-			}
-			//if the user is gazing at the same area
-			if(Math.abs(xAvg - prediction.x) < width / 3 && Math.abs(yAvg - prediction.y) < height / 3){
+			else if(Math.abs(xAvg - prediction.x) < width / 3 && Math.abs(yAvg - prediction.y) < height / 3){
+				//user is gazing at same area
 				xAvg = (xAvg * .9) + (prediction.x * .1);
 				yAvg = (yAvg * .9) + (prediction.y * .1);
 				unfocusedTime = unfocusedTime + 1;
+				distractedTime = 0;
 			}
 			else{
+				//user is moving their eyes
 				xAvg = (xAvg * .6) + (prediction.x * .4);
 				yAvg = (yAvg * .6) + (prediction.y * .4);	
 				unfocusedTime = 0;
+				distractedTime = 0;
 			}
+
 			if(unfocusedTime > 30){
 				window.alert("You seem to be losing concentration. Why not take a break and come back?");
 				unfocusedTime = 0;
+			}
+			else if(distractedTime > 20){
+				window.alert("distracted");
 			}
 			console.log(xAvg);
 			console.log(yAvg);
@@ -102,6 +110,7 @@
 			document.getElementById("focus").style.left = (xAvg + "px");
 		}
 		else if(calibrated){
+			distractedTime = distractedTime + 1;
 			if(distractedTime > 20){
 				window.alert("distracted");
 			}
