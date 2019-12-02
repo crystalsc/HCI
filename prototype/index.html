@@ -109,7 +109,7 @@
 		console.log(studyTimeTarget);
 		var prediction = webgazer.getCurrentPrediction();
 		if(!paused && prediction && calibrated){
-			if(prediction.x < 0 || prediction.x > width){
+			if(prediction.x < 20 || prediction.x > width - 20 || prediction.y < 20 || prediction.y > height - 20){
 				//out of bounds, aka not looking at screen
 				distractedTime = distractedTime + 1;
 			}
@@ -133,8 +133,10 @@
 				unfocusedTime = 0;
 				mistakes = mistakes + 1;
 			}
-			else if(distractedTime > 20){
-				window.alert("distracted");
+			else if(distractedTime > 10){
+				console.log("distracted warning");
+				//window.alert("distracted");
+				distractedTime = 0;
 				mistakes = mistakes + 1;
 			}
 			console.log(xAvg);
@@ -146,14 +148,21 @@
 		else if(!paused && calibrated){
 			distractedTime = distractedTime + 1;
 			if(distractedTime > 20){
-				window.alert("distracted");
+				console.log("distracted warning");
+				//window.alert("distracted");
+				distractedTime = 0;
 				mistakes = mistakes + 1;
 			}
 		}
 
 		studyTime = studyTime + 1;
+		//every five minutes
 		if(mistakes === 0 && studyTime % 3000 === 0){
 			//add a plant
+		}
+		if(studyTime >= studyTimeTarget){
+			mistakes = 0;
+			//I don't know, do something
 		}
 
 	}, 100);
