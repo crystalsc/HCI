@@ -1,0 +1,63 @@
+#focus{
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	width: 40px;
+	height: 40px;
+	background-color: rgb(255, 120, 0);
+}
+.button-calibrate{
+	margin: 1rem;
+	padding: 1rem;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px 4px rgba(0,0,0,.1);
+	background-color: rgb(245,245,245);
+	position: absolute;
+}
+#cal-1{
+	top: 0;
+	left: 0;
+}
+#cal-2{
+	top: 0;
+	right: 0;
+}
+#cal-3{
+	bottom: 0;
+	left: 0;
+}
+#cal-4{
+	bottom: 0;
+	right: 0;
+}
+#garden{
+	display: none;
+}
+body{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#webgazerVideoFeed{
+	display: none;
+}
+#webgazerVideoCanvas{
+	display: none;
+}
+body > #webgazerFaceOverlay{
+	display: none;
+}
+#webgazerFaceFeedbackBox{
+	display: none;
+}
+/*
+body > video{
+	display: none !important;
+}
+body > canvas{
+	display: none !important;
+}
+#focus{
+	display: none !important;
+}
+*/
