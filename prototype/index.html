@@ -53,7 +53,7 @@
 			<h2>
 				Minutes to study for:
 			</h2>
-			<button>
+			<button onclick="playPause()">
 				Pause
 			</button>
 			<input id='time' type='number' name='time' value='15'>
@@ -88,6 +88,10 @@
 		}
 
 	}
+
+	function playPause(){
+
+	}
 	const width = window.innerWidth;
 	const height = window.innerHeight;
 	webgazer.begin();
@@ -98,6 +102,7 @@
 
 	var unfocusedTime = 0;
 	var distractedTime = 0;
+	var mistakes = 0;
 
 	const intervalWebgazer = setInterval(function(){
 		studyTimeTarget = document.getElementById("time").value;
@@ -126,9 +131,11 @@
 			if(unfocusedTime > 30){
 				window.alert("You seem to be losing concentration. Why not take a break and come back?");
 				unfocusedTime = 0;
+				mistakes = mistakes + 1;
 			}
 			else if(distractedTime > 20){
 				window.alert("distracted");
+				mistakes = mistakes + 1;
 			}
 			console.log(xAvg);
 			console.log(yAvg);
@@ -140,8 +147,15 @@
 			distractedTime = distractedTime + 1;
 			if(distractedTime > 20){
 				window.alert("distracted");
+				mistakes = mistakes + 1;
 			}
 		}
+
+		studyTime = studyTime + 1;
+		if(mistakes === 0 && studyTime % 3000 === 0){
+			//add a plant
+		}
+
 	}, 100);
 
 
