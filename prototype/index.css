@@ -1,14 +1,5 @@
-#focus{
-	position: absolute;
-	top: 50vh;
-	left: 50vw;
-	width: 40px;
-	height: 40px;
-	background-color: rgb(255, 120, 0);
-}
 .button-calibrate{
 	margin: 1rem;
-	padding: 1rem;
 	width: 3rem;
 	height: 3rem;
 	border-radius: 50%;
@@ -52,14 +43,77 @@
 	bottom: 0;
 	right: 0;
 }
-#garden{
-	display: none;
+#cal-5{
+	top: 0;
+	left: calc(50vw - 1.5rem);
 }
-body{
+#cal-6{
+	top: calc(50vh - 1.5rem);
+	right: 0;
+}
+#cal-7{
+	bottom: 0;
+	left: calc(50vw - 1.5rem);
+}
+#cal-8{
+	top: calc(50vh - 1.5rem);
+	left: 0;
+}
+
+
+
+
+
+
+
+
+#focus{
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	width: 40px;
+	height: 40px;
+	background-color: rgb(255, 120, 0);
+}
+
+#instructions{
+	padding: 4rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
+#instructions > h1{
+	padding: 1rem;
+}
+
+#controls{
+	display: none;
+}
+#garden{
+	display: none;
+	background-color: green;
+	height: 80vh;
+	flex-direction: column;
+	align-items: center;
+}
+#garden > h1{
+	padding: 1rem;
+	color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #webgazerVideoFeed{
 	display: none;
 }

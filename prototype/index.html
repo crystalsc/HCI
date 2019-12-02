@@ -20,8 +20,6 @@
 				Look at each circle and click it until it disappears.
 			</p>
 		</div>
-		<p id='xval'>
-		</p>
 		<button class='button-calibrate button-calibrate__t5' id='cal-1' onclick="calib(1)">
 			5
 		</button>
@@ -34,8 +32,25 @@
 		<button class='button-calibrate button-calibrate__t5' id='cal-4' onclick="calib(4)">
 			5
 		</button>
+		<button class='button-calibrate button-calibrate__t5' id='cal-5' onclick="calib(5)">
+			5
+		</button>
+		<button class='button-calibrate button-calibrate__t5' id='cal-6' onclick="calib(6)">
+			5
+		</button>
+		<button class='button-calibrate button-calibrate__t5' id='cal-7' onclick="calib(7)">
+			5
+		</button>
+		<button class='button-calibrate button-calibrate__t5' id='cal-8' onclick="calib(8)">
+			5
+		</button>
 		<div id='garden' class='garden'>
-			(the garden)
+			<h1>
+				Welcome to your Garden
+			</h1>
+		</div>
+		<div id='controls'>
+			Controls for the timer stuff and pause button go here
 		</div>
 		<div id="focus">
 			
@@ -45,6 +60,7 @@
 <script>
 	var clickCount = 0;
 	var calibrated = false;
+	var paused = false;
 
 	function calib(n){
 		var newVal = document.getElementById("cal-" + n).innerHTML - 1;
@@ -56,9 +72,10 @@
 			document.getElementById("cal-" + n).style.display = "none";
 		}
 		clickCount = clickCount + 1;
-		if(clickCount === 15){
+		if(clickCount === 35){
 			calibrated = true;
-			document.getElementById("garden").style.display = "block";
+			document.getElementById("garden").style.display = "flex";
+			document.getElementById("controls").style.display = "block";
 			document.getElementById("instructions").style.display = "none";
 		}
 
@@ -69,14 +86,14 @@
 
 	var xAvg = width / 2;
 	var yAvg = height / 2;
-	document.getElementById("xval").innerHTML = xAvg;
+	//document.getElementById("xval").innerHTML = xAvg;
 
 	var unfocusedTime = 0;
 	var distractedTime = 0;
 
 	const intervalWebgazer = setInterval(function(){
 		var prediction = webgazer.getCurrentPrediction();
-		if(prediction && calibrated){
+		if(!paused && prediction && calibrated){
 			if(prediction.x < 0 || prediction.x > width){
 				//out of bounds, aka not looking at screen
 				distractedTime = distractedTime + 1;
@@ -105,11 +122,11 @@
 			}
 			console.log(xAvg);
 			console.log(yAvg);
-			document.getElementById("xval").innerHTML = xAvg;
+			//document.getElementById("xval").innerHTML = xAvg;
 			document.getElementById("focus").style.top = (yAvg + "px");
 			document.getElementById("focus").style.left = (xAvg + "px");
 		}
-		else if(calibrated){
+		else if(!paused && calibrated){
 			distractedTime = distractedTime + 1;
 			if(distractedTime > 20){
 				window.alert("distracted");
