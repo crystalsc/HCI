@@ -9,15 +9,17 @@
 </head>
 <body>
 	<main class='content'>
-		<h1>
-			Prototype Eye Tracker
-		</h1>
-		<h4>
-			How to calibrate:
-		</h4>
-		<p>
-			Click the buttons in the four corners until they disappear.
-		</p>
+		<div id='instructions'>
+			<h1>
+				Prototype Eye Tracker
+			</h1>
+			<h4>
+				How to calibrate:
+			</h4>
+			<p>
+				Click the buttons in the four corners until they disappear.
+			</p>
+		</div>
 		<p id='xval'>
 		</p>
 		<button class='button-calibrate' id='cal-1' onclick="calib(1)">
@@ -51,9 +53,10 @@
 			document.getElementById("cal-" + n).style.display = "none";
 		}
 		clickCount = clickCount + 1;
-		if(clickCount === 20){
+		if(clickCount === 15){
 			calibrated = true;
 			document.getElementById("garden").style.display = "block";
+			document.getElementById("instructions").style.display = "none";
 		}
 
 	}
@@ -66,36 +69,42 @@
 	document.getElementById("xval").innerHTML = xAvg;
 
 	var unfocusedTime = 0;
+	var distractedTime = 0;
 
 	const intervalWebgazer = setInterval(function(){
 		var prediction = webgazer.getCurrentPrediction();
-		if(prediction){
-			if(data.x > width / 2){
+		if(prediction && calibrated){
+			if(prediction.x > width / 2){
 				//looking at right side of screen
 			}
 			else{
 				//left side of screen
 			}
 			//if the user is gazing at the same area
-			if(Math.abs(xAvg - data.x) < width / 1.5 && Math.abs(yAvg - data.y) < height / 1.5){
-				xAvg = (xAvg * .9) + (data.x * .1);
-				yAvg = (yAvg * .9) + (data.y * .1);
+			if(Math.abs(xAvg - prediction.x) < width / 3 && Math.abs(yAvg - prediction.y) < height / 3){
+				xAvg = (xAvg * .9) + (prediction.x * .1);
+				yAvg = (yAvg * .9) + (prediction.y * .1);
 				unfocusedTime = unfocusedTime + 1;
 			}
 			else{
-				xAvg = (xAvg * .6) + (data.x * .4);
-				yAvg = (yAvg * .6) + (data.y * .4);	
+				xAvg = (xAvg * .6) + (prediction.x * .4);
+				yAvg = (yAvg * .6) + (prediction.y * .4);	
 				unfocusedTime = 0;
 			}
 			if(unfocusedTime > 30){
 				window.alert("You seem to be losing concentration. Why not take a break and come back?");
+				unfocusedTime = 0;
 			}
+			console.log(xAvg);
+			console.log(yAvg);
 			document.getElementById("xval").innerHTML = xAvg;
 			document.getElementById("focus").style.top = (yAvg + "px");
 			document.getElementById("focus").style.left = (xAvg + "px");
 		}
 		else if(calibrated){
-
+			if(distractedTime > 20){
+				window.alert("distracted");
+			}
 		}
 	}, 100);
 

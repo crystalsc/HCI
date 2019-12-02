@@ -57,6 +57,7 @@ body > video{
 body > canvas{
 	display: none !important;
 }
+/*
 #focus{
 	display: none !important;
 }
