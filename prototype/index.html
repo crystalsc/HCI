@@ -48,12 +48,15 @@
 			<h1>
 				Welcome to your Garden
 			</h1>
+			<div id='flowers'>
+
+			</div>
 		</div>
 		<div id='controls'>
 			<h2>
 				Minutes to study for:
 			</h2>
-			<button onclick="playPause()">
+			<button id='playpause' onclick="playPause()">
 				Pause
 			</button>
 			<input id='time' type='number' name='time' value='15'>
@@ -68,7 +71,7 @@
 
 	var clickCount = 0;
 	var calibrated = false;
-	var paused = false;
+	var paused = true;
 	var studyTime = 0; //in tenths of a second
 	var studyTimeTarget = 0;	//in tenths of a second
 
@@ -84,6 +87,7 @@
 		clickCount = clickCount + 1;
 		if(clickCount === 35){
 			calibrated = true;
+			paused = false;
 			document.getElementById("garden").style.display = "flex";
 			document.getElementById("controls").style.display = "grid";
 			document.getElementById("instructions").style.display = "none";
@@ -92,8 +96,29 @@
 	}
 
 	function playPause(){
-
+		if(!paused){
+			document.getElementById("playpause").innerHTML = 'Play';
+			paused = !paused;
+		}
+		else{
+			document.getElementById("playpause").innerHTML = 'Pause';
+			paused = !paused;
+		}
 	}
+
+	function addPlant(){
+		var r = Math.floor(Math.random() * 3);
+		if(r === 0){
+			document.getElementById("flowers").innerHTML += "<img src=flower1.png>";
+		}
+		else if(r === 1){
+			document.getElementById("flowers").innerHTML += "<img src=flower2.png>";
+		}
+		else{
+			document.getElementById("flowers").innerHTML += "<img src=flower3.png>";
+		}
+	}
+
 	const width = window.innerWidth;
 	const height = window.innerHeight;
 	webgazer.begin();
@@ -107,7 +132,7 @@
 	var mistakes = 0;
 
 	const intervalWebgazer = setInterval(function(){
-		studyTimeTarget = document.getElementById("time").value;
+		studyTimeTarget = Math.max(600, document.getElementById("time").value * 600);
 		console.log(studyTimeTarget);
 		var prediction = webgazer.getCurrentPrediction();
 		if(!paused && prediction && calibrated){
@@ -142,8 +167,8 @@
 				distractedTime = 0;
 				mistakes = mistakes + 1;
 			}
-			console.log(xAvg);
-			console.log(yAvg);
+			//console.log(xAvg);
+			//console.log(yAvg);
 			//document.getElementById("xval").innerHTML = xAvg;
 			document.getElementById("focus").style.top = (yAvg + "px");
 			document.getElementById("focus").style.left = (xAvg + "px");
@@ -162,12 +187,15 @@
 		}
 		
 		//every five minutes
-		if(mistakes === 0 && studyTime % 3000 === 0){
-			//add a plant
+		if(mistakes === 0 && studyTime % 3000 === 1){
+			mistakes = 0;
+			addPlant();
 		}
 		if(studyTime >= studyTimeTarget){
 			mistakes = 0;
 			var n = new Notification("It's time for a study break!");
+			playPause();
+			studyTime = 0;
 			//I don't know, do something
 		}
 
