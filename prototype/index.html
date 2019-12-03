@@ -9,6 +9,19 @@
 </head>
 <body>
 	<main class='content'>
+		<div id='welcome'>
+			<h1>
+				AR Study Helper Prototype
+			</h1>
+			<h3>
+				Improve your study habits using our eye-tracking software
+			</h3>
+			<button onclick="hideIntro()">
+				<h3>
+					Get Started
+				</h3>
+			</button>
+		</div>
 		<div id='instructions'>
 			<h1>
 				Prototype Eye Tracker
@@ -74,6 +87,13 @@
 	var paused = true;
 	var studyTime = 0; //in tenths of a second
 	var studyTimeTarget = 0;	//in tenths of a second
+
+	function hideIntro(){
+		document.getElementById("welcome").style.opacity = '0';
+		setTimeout(function() {
+			document.getElementById("welcome").style.display = "none";
+		}, 400);
+	}
 
 	function calib(n){
 		var newVal = document.getElementById("cal-" + n).innerHTML - 1;
