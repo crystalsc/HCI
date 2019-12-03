@@ -64,11 +64,7 @@
 	</main>
 </body>
 <script>
-	Notification.requestPermission().then(function(permission){
-		if(permission === "granted"){
-			//var notification = new Notification("Test");
-		}
-	})
+	Notification.requestPermission();
 
 	var clickCount = 0;
 	var calibrated = false;
