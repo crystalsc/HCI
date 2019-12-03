@@ -157,14 +157,17 @@
 				mistakes = mistakes + 1;
 			}
 		}
-
-		studyTime = studyTime + 1;
+		if(!paused){
+			studyTime = studyTime + 1;
+		}
+		
 		//every five minutes
 		if(mistakes === 0 && studyTime % 3000 === 0){
 			//add a plant
 		}
 		if(studyTime >= studyTimeTarget){
 			mistakes = 0;
+			var n = new Notification("It's time for a study break!");
 			//I don't know, do something
 		}
 
