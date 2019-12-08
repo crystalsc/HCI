@@ -3,7 +3,8 @@ Studying website
 
 To run:
 ```
-cd prototype
+git clone https://github.com/crystalsc/HCI.git
+cd HCI/prototype
 npm i serve
 npx serve
 ```
